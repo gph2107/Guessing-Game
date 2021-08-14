@@ -1,0 +1,29 @@
+package Game;
+
+//Thread to Implement rules of the game.
+
+class NewThread implements Runnable
+{
+	Thread t;
+	
+	NewThread()
+	{
+		t = new Thread(this,"Rules Thread");
+		t.start();
+	}
+	
+	public void run()  //Entry point of child thread
+	{
+		try
+		{
+			Thread.sleep(2500);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("Something Error");
+		}
+			
+		
+	}
+}

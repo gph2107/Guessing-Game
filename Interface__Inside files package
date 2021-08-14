@@ -1,0 +1,13 @@
+//Inside files package
+package files;
+
+interface Inter1
+{
+void Func1() ;
+}
+
+interface Inter3 extends Inter1
+{
+// void Func1() ; -> Visible here!
+void Func3() ;
+}

@@ -1,0 +1,162 @@
+package Game;
+
+import java.util.*;
+import java.util.regex.Pattern;
+
+public class content {
+	
+    protected int numGuess;
+    protected int numLoops;
+    protected Boolean alreadyGuessed;
+    
+    content()
+    {
+    	this.numGuess = 0;
+    	this.numLoops = 0;
+    	this.alreadyGuessed = false;
+    }
+    
+    content(int noGuesses,int nLoops,boolean alreGuessed)
+    {
+    	this.numGuess = noGuesses;
+    	int numLoops = nLoops;
+    	this.alreadyGuessed = alreGuessed;
+    }
+    
+    
+    public void Start(String selectedAnswer) {
+        String hidden = new String(new char[selectedAnswer.length()]).replace('\0', '_');
+        String lettersGuessed = "";
+        String fixedAnswer = selectedAnswer;
+
+
+        //Start the game
+        System.out.println("Can you guess the Answer ?");
+
+
+
+        //fix movie title to remove colons, spaces, etc...
+        char[] unwantedCharacters = {':', ' '};
+        fixedAnswer = fixedAnswer.replace(":", "_");
+        fixedAnswer = fixedAnswer.replace(" ", "_");
+        fixedAnswer = fixedAnswer.replace(", ", "_");
+
+        Scanner scanner = new Scanner(System.in);
+
+        //Initial game loop
+        for (int i = 18; i > 0; i--) {
+            System.out.println("You have " + i + " guess(es) left. Choose a letter : ");
+            //System.out.println("Type a letter. The letter written first will be considered.");
+            System.out.println("These are the letters you have guessed till now : " + lettersGuessed);
+            System.out.println("You have made a total of " + numGuess + " guesses.");
+            System.out.println("Current word " + hidden);
+
+            //System.out.println(selectedMovie);
+            //System.out.println("Fixed movie: " + fixedMovie);
+            String guess = scanner.nextLine();
+            char currentGuess = guess.charAt(0);
+            
+            checkalpha(guess);
+
+            if (Pattern.matches("[a-zA-Z]+", guess))
+            {
+                //If you already guessed once check to make sure its not the same letter.
+                for (int x = 1; x <= numLoops; x++)
+                {
+                    if (currentGuess == lettersGuessed.charAt(x - 1))
+                    {
+                        System.out.println("You already guessed the letter " + currentGuess);
+                        i++;
+                        numGuess++;
+                        alreadyGuessed = true;
+                        break;
+                    } 
+                    else 
+                    {
+                        alreadyGuessed = false;
+                    }
+
+
+                }
+                //If this is not a letter that was already guessed
+                //Check the logic to see where it is and reveal the letter in the word
+                if (!alreadyGuessed) 
+                {
+
+
+                    for (int r = 0; r <= selectedAnswer.length() - 1; r++)
+                    {
+                        char current = selectedAnswer.charAt(r);
+
+
+                        //Convert answer to lowercase
+                        currentGuess = Character.toLowerCase(currentGuess);
+                        if (current == currentGuess)
+                        {
+                            System.out.println("You guessed a correct letter");
+                            char[] charHidden = hidden.toCharArray();
+                            charHidden[r] = current;
+                            hidden = String.valueOf(charHidden);
+                           
+                        }
+
+                        //Convert answer to uppercase
+                        currentGuess = Character.toUpperCase(currentGuess);
+                        if (current == currentGuess) 
+                        {
+                            System.out.println("You guessed a correct letter");
+                            char[] charHidden = hidden.toCharArray();
+                            charHidden[r] = current;
+                            hidden = String.valueOf(charHidden);
+         
+                        }
+
+
+                    }
+                    lettersGuessed = lettersGuessed + currentGuess + ", ";
+                    numGuess++;
+                    numLoops++;
+                }
+
+                if (fixedAnswer.equals(hidden)) 
+                {
+                	System.out.println("Hurray!!!");
+                    System.out.println("**============YOU WIN========**");
+                    System.out.println("The answer was :  " + selectedAnswer);
+                    break;
+                }
+            }
+            
+            else {
+                System.out.println("Please enter an alphabetical character.");
+                i++;
+            }
+
+
+
+            }
+
+        if (!fixedAnswer.equals(hidden)) 
+        {
+        	Lost(selectedAnswer);
+        }
+
+
+
+}
+    
+void checkalpha(String guess) 
+{
+        if(!Pattern.matches("[a-zA-Z]+", guess ))
+        {
+            System.out.println("Please enter an alphabetical character.");
+        }
+ }
+
+	void Lost(String selectedAnswer)
+	{
+    	System.out.println("You chances are over!");
+        System.out.println("You lose... :( ");
+        System.out.println("The answer was :  " + selectedAnswer);
+	}
+}

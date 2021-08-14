@@ -1,0 +1,22 @@
+//Inside files package
+package files;
+//Interface to Welcome participants to the game.
+
+class ImplementInterface implements Inter3
+{
+public void Func1()
+{
+System.out.println("                                *********************************************************************************                 ") ;
+System.out.println();
+}
+public void Func3()
+{
+System.out.println("<================================================================================>");
+}
+void NewMethod()
+{
+System.out.println("                                 Welcome to The Guessing Game") ;
+System.out.println();
+System.out.println("............................. Lots Of Entertainment ! Enjoy the game................................") ;
+}
+}
